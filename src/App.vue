@@ -154,23 +154,515 @@
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
-
 export default {
   name: 'App',
-  components: {
-    HelloWorld
+  mounted() {
+    const seraphim = document.getElementById('MAIN-BODY');
+    const container = document.getElementById('seraphim-container');
+
+    // Store the center position
+    let centerX = 0;
+    let centerY = 0;
+
+    // Calculate center on load and resize
+    function updateCenter() {
+        const rect = container.getBoundingClientRect();
+        centerX = rect.left + rect.width / 2;
+        centerY = rect.top + rect.height / 2;
+    }
+
+    updateCenter();
+    window.addEventListener('resize', updateCenter);
+
+    // Track mouse movement
+    container.addEventListener('mousemove', (e) => {
+        const mouseX = e.clientX;
+        const mouseY = e.clientY;
+        
+        // Calculate distance from center
+        const deltaX = mouseX - centerX;
+        const deltaY = mouseY - centerY;
+        
+        // Calculate distance
+        const distance = Math.sqrt(deltaX * deltaX + deltaY * deltaY);
+        
+        // Move away from mouse (inverse direction, scaled down)
+        const pushStrength = 90; // How far it moves (in pixels)
+        const maxDistance = 300; // Maximum effective distance
+        
+        const factor = Math.min(distance / maxDistance, 1);
+        const moveX = -(deltaX / distance) * pushStrength * factor;
+        const moveY = -(deltaY / distance) * pushStrength * factor;
+        
+        seraphim.style.transform = `translate(${moveX}px, ${moveY}px)`;
+    });
+
+    // Return to center when mouse leaves
+    container.addEventListener('mouseleave', () => {
+        seraphim.style.transform = 'translate(0, 0)';
+    });
+
+    // Array of mystical symbols
+    const symbols = ['✦', '✧', '✨', '⚡', '☆', '★', '◆', '◇', '○', '●', '▲', '△', '☽', '☾', '✵', '✶', '❋', '✹', '⊹', '※'];
+
+    // Function to get the center position of the seraphim
+    function getSeraphimCenter() {
+        const rect = container.getBoundingClientRect();
+        return {
+            x: rect.width / 2,
+            y: rect.height / 2
+        };
+    }
+
+    // Function to create and animate a spell symbol
+    function castSpell() {
+        const center = getSeraphimCenter();
+        const symbol = document.createElement('div');
+        symbol.className = 'spell-symbol';
+        
+        // Random symbol from array
+        symbol.textContent = symbols[Math.floor(Math.random() * symbols.length)];
+        
+        // Random color
+        const colors = ['#00FFFF', '#FF00FF', '#FFFF00', '#00FF00', '#FF0080', '#0080FF'];
+        symbol.style.color = colors[Math.floor(Math.random() * colors.length)];
+        
+        // Start from center
+        symbol.style.left = center.x + 'px';
+        symbol.style.top = center.y + 'px';
+        
+        // Random direction and distance
+        const angle = Math.random() * Math.PI * 2;
+        const distance = 150 + Math.random() * 500;
+        const tx = Math.cos(angle) * distance;
+        const ty = Math.sin(angle) * distance;
+        const rotation = Math.random() * 720 - 360;
+        
+        // Set CSS variables for animation
+        symbol.style.setProperty('--tx', `${tx}px`);
+        symbol.style.setProperty('--ty', `${ty}px`);
+        symbol.style.setProperty('--rotation', `${rotation}deg`);
+        
+        container.appendChild(symbol);
+        
+        // Remove element after animation completes
+        setTimeout(() => {
+            symbol.remove();
+        }, 3000);
+    }
+
+    // Function to create a burst of symbols
+    function symbolBurst() {
+        const burstCount = 8 + Math.floor(Math.random() * 8); // 8-15 symbols
+        for (let i = 0; i < burstCount; i++) {
+            setTimeout(() => {
+                castSpell();
+            }, i * 50); // Stagger by 50ms
+        }
+    }
+
+    // Cast spells periodically
+    function startCasting() {
+        symbolBurst(); // Initial burst
+        
+        // Random intervals between 3-7 seconds
+        const nextCast = 3000 + Math.random() * 4000;
+        setTimeout(() => {
+            startCasting();
+        }, nextCast);
+    }
+
+    // Start the spell casting
+    startCasting();
+
+    // Optional: Cast on eye blink (sync with blink animation)
+    // Trigger when main eye blinks
+    setInterval(() => {
+        castSpell();
+    }, 8000); // Matches the 8s blink cycle
+
+
   }
 }
 </script>
 
 <style>
+body {
+  background-color: #333235;
+  background-image: url("data:image/svg+xml,%3Csvg width='84' height='84' viewBox='0 0 84 84' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%2355e7e5' fill-opacity='0.1'%3E%3Cpath d='M84 23c-4.417 0-8-3.584-8-7.998V8h-7.002C64.58 8 61 4.42 61 0H23c0 4.417-3.584 8-7.998 8H8v7.002C8 19.42 4.42 23 0 23v38c4.417 0 8 3.584 8 7.998V76h7.002C19.42 76 23 79.58 23 84h38c0-4.417 3.584-8 7.998-8H76v-7.002C76 64.58 79.58 61 84 61V23zM59.05 83H43V66.95c5.054-.5 9-4.764 9-9.948V52h5.002c5.18 0 9.446-3.947 9.95-9H83v16.05c-5.054.5-9 4.764-9 9.948V74h-5.002c-5.18 0-9.446 3.947-9.95 9zm-34.1 0H41V66.95c-5.053-.502-9-4.768-9-9.948V52h-5.002c-5.184 0-9.447-3.946-9.95-9H1v16.05c5.053.502 9 4.768 9 9.948V74h5.002c5.184 0 9.447 3.946 9.95 9zm0-82H41v16.05c-5.054.5-9 4.764-9 9.948V32h-5.002c-5.18 0-9.446 3.947-9.95 9H1V24.95c5.054-.5 9-4.764 9-9.948V10h5.002c5.18 0 9.446-3.947 9.95-9zm34.1 0H43v16.05c5.053.502 9 4.768 9 9.948V32h5.002c5.184 0 9.447 3.946 9.95 9H83V24.95c-5.053-.502-9-4.768-9-9.948V10h-5.002c-5.184 0-9.447-3.946-9.95-9zM50 50v7.002C50 61.42 46.42 65 42 65c-4.417 0-8-3.584-8-7.998V50h-7.002C22.58 50 19 46.42 19 42c0-4.417 3.584-8 7.998-8H34v-7.002C34 22.58 37.58 19 42 19c4.417 0 8 3.584 8 7.998V34h7.002C61.42 34 65 37.58 65 42c0 4.417-3.584 8-7.998 8H50z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+  margin: 0;
+  padding: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  position: relative;
+  overflow: hidden;
+}
+
 #app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
+  width: 100%;
+  height: 100%;
+}
+
+#seraphim-container {
+  max-width: 800px;
+  width: 100%;
+  max-width: 600px;
+  margin: 0;
+}
+
+svg {
+  width: 100%;
+  height: auto;
+  position: relative;
+}
+
+svg::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: 
+    radial-gradient(circle, rgba(0,0,0,0.08) 1.2px, transparent 1.2px);
+  background-size: 6px 6px;
+  pointer-events: none;
+  mix-blend-mode: multiply;
+}
+
+/* Keyframes for blinking - instant snap between open and closed */
+@keyframes blink {
+  0%, 8% { opacity: 1; }
+  9%, 11% { opacity: 0; }
+  12%, 100% { opacity: 1; }
+}
+
+@keyframes blink-inverse {
+  0%, 8% { opacity: 0; }
+  9%, 11% { opacity: 1; }
+  12%, 100% { opacity: 0; }
+}
+
+/* Main Eyes - First to blink */
+#OPEN-EYE {
+  animation: blink 8s infinite;
+  animation-delay: 0s;
+}
+
+#CLOSED-EYE {
+  opacity: 0;
+  animation: blink-inverse 8s infinite;
+  animation-delay: 0s;
+}
+
+/* Right Wing Eyes - Second to blink */
+#RW-OPEN-EYE {
+  animation: blink 8s infinite;
+  animation-delay: 0.3s;
+}
+
+#RW-CLOSED-EYE {
+  opacity: 0;
+  animation: blink-inverse 8s infinite;
+  animation-delay: 0.3s;
+}
+
+/* Top Wing Eyes - Third to blink */
+#TW-OPEN-EYE {
+  animation: blink 8s infinite;
+  animation-delay: 0.6s;
+}
+
+#TW-CLOSED-EYE {
+  opacity: 0;
+  animation: blink-inverse 8s infinite;
+  animation-delay: 0.6s;
+}
+
+/* Left Wing Eyes - Fourth to blink */
+#LW-OPEN-EYE {
+  animation: blink 8s infinite;
+  animation-delay: 0.9s;
+}
+
+#LW-CLOSED-EYE {
+  opacity: 0;
+  animation: blink-inverse 8s infinite;
+  animation-delay: 0.9s;
+}
+
+/* Bottom Wing Eyes - Fifth to blink */
+#BW-OPEN-EYE {
+  animation: blink 8s infinite;
+  animation-delay: 1.2s;
+}
+
+#BW-CLOSED-EYE {
+  opacity: 0;
+  animation: blink-inverse 8s infinite;
+  animation-delay: 1.2s;
+}
+
+@keyframes float {
+  from {
+    transform: translateY(-20px);
+  }
+  to {
+    transform: translateY(20px);
+  }
+}
+
+#seraphim-container {
+  animation: float 3s infinite alternate;
+}
+
+.cls-1 {
+  fill: white;
+}
+
+.cls-2 {
+  fill: #fff;
+}
+
+/* EYE COLORS */
+#main-iris {
+    fill: #FFFF00;
+}
+
+#main-iris-2 {
+    fill: #00FF00;
+}
+
+#main-iris-3 {
+    fill: #00FFFF;
+}
+
+#main-iris-4 {
+    fill: #0040FF;
+}
+
+#main-iris-5 {
+    fill: #FF0080;
+}
+
+/* Hover to close eyes */
+#RW-OPEN-EYE:hover,
+#LW-OPEN-EYE:hover,
+#OPEN-EYE:hover,
+#TW-OPEN-EYE:hover,
+#BW-OPEN-EYE:hover {
+    opacity: 0 !important;
+}
+
+#RW-CLOSED-EYE:hover,
+#LW-CLOSED-EYE:hover,
+#CLOSED-EYE:hover,
+#TW-CLOSED-EYE:hover,
+#BW-CLOSED-EYE:hover {
+    opacity: 1 !important;
+}
+
+/* Wing flapping animation */
+@keyframes flap-right {
+    0%, 100% { transform: rotate(-1deg); }
+    50% { transform: rotate(15deg); }
+}
+
+@keyframes flap-left {
+    0%, 100% { transform: rotate(1deg); }
+    50% { transform: rotate(-15deg); }
+}
+
+#RIGHT-WING {
+    transform-origin: center center;
+    animation: flap-right 1.5s ease-in-out infinite;
+}
+
+#LEFT-WING {
+    transform-origin: center center;
+    animation: flap-left 1.5s ease-in-out infinite;
+}
+
+#MAIN-BODY {
+    transition: transform 0.3s ease-out;
+}
+
+/* Soft, subtle shadow */
+#MAIN-BODY {
+    filter: drop-shadow(0 5px 15px rgba(0, 0, 0, 0.2));
+}
+
+/* Dramatic, larger shadow */
+#MAIN-BODY {
+    filter: drop-shadow(0 20px 40px rgba(0, 0, 0, 0.5));
+}
+
+/* Colored shadow (e.g., blue glow) */
+#MAIN-BODY {
+    filter: drop-shadow(0 10px 30px rgba(0, 100, 255, 0.4));
+}
+
+/* Multiple shadows */
+#MAIN-BODY {
+    filter: 
+        drop-shadow(0 5px 10px rgba(0, 0, 0, 0.3))
+        drop-shadow(0 15px 30px rgba(0, 0, 0, 0.2));
+}
+
+/* Symbol animation styles */
+.spell-symbol {
+    position: absolute;
+    font-size: 80px;
+    pointer-events: none;
+    opacity: 0;
+    animation: cast-spell 3s ease-out forwards;
+}
+
+@keyframes cast-spell {
+    0% {
+        opacity: 0;
+        transform: translate(0, 0) rotate(0deg) scale(0);
+    }
+    10% {
+        opacity: 1;
+        transform: translate(0, 0) rotate(0deg) scale(1);
+    }
+    100% {
+        opacity: 0;
+        transform: translate(var(--tx), var(--ty)) rotate(var(--rotation)) scale(0.5);
+    }
+}
+
+/* Glow effect for symbols */
+.spell-symbol {
+    filter: drop-shadow(0 0 8px currentColor);
+    text-shadow: 0 0 10px currentColor;
+}
+
+#seraphim-container {
+    position: relative;
+}
+
+
+/* BACKGROUND  */
+body {
+  margin: 0;
+  padding: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  position: relative;
+  overflow: hidden;
+  background: 
+    /* Base gradient */
+    linear-gradient(
+      124deg,
+      #FFFF00,
+      #00FF00,
+      #00FFFF,
+      #0040FF,
+      #FF0080,
+      #FFFF00
+    );
+  background-size: 400% 400%;
+  animation: gradient-shift 20s ease infinite;
+}
+
+@keyframes gradient-shift {
+  0%, 100% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+}
+
+/* Layer 1: Organic bubble texture */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background-image:
+    radial-gradient(circle at 15% 25%, rgba(255, 255, 0, 0.4) 0%, transparent 3%),
+    radial-gradient(circle at 85% 75%, rgba(0, 255, 0, 0.3) 0%, transparent 4%),
+    radial-gradient(circle at 45% 55%, rgba(0, 255, 255, 0.35) 0%, transparent 2%),
+    radial-gradient(circle at 25% 85%, rgba(0, 64, 255, 0.3) 0%, transparent 5%),
+    radial-gradient(circle at 75% 15%, rgba(255, 0, 128, 0.4) 0%, transparent 3%),
+    radial-gradient(circle at 55% 35%, rgba(255, 255, 0, 0.25) 0%, transparent 4%),
+    radial-gradient(circle at 35% 65%, rgba(0, 255, 0, 0.3) 0%, transparent 3%),
+    radial-gradient(circle at 65% 85%, rgba(0, 255, 255, 0.35) 0%, transparent 2%),
+    radial-gradient(circle at 90% 40%, rgba(0, 64, 255, 0.3) 0%, transparent 4%),
+    radial-gradient(circle at 10% 60%, rgba(255, 0, 128, 0.25) 0%, transparent 5%),
+    radial-gradient(circle at 50% 10%, rgba(255, 255, 0, 0.3) 0%, transparent 3%),
+    radial-gradient(circle at 20% 50%, rgba(0, 255, 0, 0.35) 0%, transparent 4%),
+    radial-gradient(circle at 80% 90%, rgba(0, 255, 255, 0.3) 0%, transparent 2%),
+    radial-gradient(circle at 40% 20%, rgba(0, 64, 255, 0.25) 0%, transparent 5%),
+    radial-gradient(circle at 60% 70%, rgba(255, 0, 128, 0.4) 0%, transparent 3%);
+  background-size: 40% 40%, 50% 50%, 35% 35%, 45% 45%, 38% 38%, 42% 42%, 48% 48%, 36% 36%, 44% 44%, 40% 40%, 46% 46%, 34% 34%, 52% 52%, 38% 38%, 43% 43%;
+  animation: 
+    bubble-drift-1 15s ease-in-out infinite,
+    bubble-rotate 25s linear infinite;
+  z-index: 0;
+  pointer-events: none;
+  opacity: 0.6;
+}
+
+@keyframes bubble-drift-1 {
+  0%, 100% { 
+    background-position: 0% 0%, 10% 10%, 20% 20%, 30% 30%, 40% 40%, 50% 50%, 60% 60%, 70% 70%, 80% 80%, 90% 90%, 15% 15%, 25% 25%, 35% 35%, 45% 45%, 55% 55%;
+  }
+  50% { 
+    background-position: 50% 50%, 60% 40%, 70% 60%, 20% 80%, 90% 20%, 30% 70%, 80% 30%, 40% 90%, 10% 50%, 70% 10%, 85% 65%, 45% 25%, 15% 75%, 65% 45%, 35% 85%;
+  }
+}
+
+@keyframes bubble-rotate {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+/* Layer 2: Fine grain texture */
+body::after {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background-image:
+    repeating-radial-gradient(circle at 50% 50%, transparent 0, transparent 1px, rgba(0, 0, 0, 0.05) 1px, rgba(0, 0, 0, 0.05) 2px),
+    repeating-radial-gradient(circle at 25% 75%, transparent 0, transparent 1px, rgba(255, 255, 255, 0.03) 1px, rgba(255, 255, 255, 0.03) 2px),
+    repeating-radial-gradient(circle at 75% 25%, transparent 0, transparent 1px, rgba(0, 0, 0, 0.04) 1px, rgba(0, 0, 0, 0.04) 2px);
+  background-size: 3px 3px, 4px 4px, 5px 5px;
+  animation: grain-shift 3s linear infinite;
+  z-index: 0;
+  pointer-events: none;
+  opacity: 0.4;
+}
+
+@keyframes grain-shift {
+  0% { background-position: 0 0, 0 0, 0 0; }
+  100% { background-position: 3px 3px, -4px 4px, 5px -5px; }
+}
+
+#seraphim-container {
+  position: relative;
+  z-index: 1;
+  max-width: 600px;
+  width: 100%;
+}
+
+
+/** LIGHTNING **/
+
+/* Yellow lightning */
+.lightning-1 {
+  background: linear-gradient(to bottom, #FFFF00, #FFD700, transparent);
+  box-shadow: 0 0 10px #FFFF00, 0 0 20px #FFD700;
+}
+
+/* Cyan lightning */
+.lightning-2 {
+  background: linear-gradient(to bottom, #00FFFF, #00CED1, transparent);
+  box-shadow: 0 0 10px #00FFFF, 0 0 20px #00CED1;
+}
+
+/* Magenta lightning */
+.lightning-3 {
+  background: linear-gradient(to bottom, #FF0080, #FF1493, transparent);
+  box-shadow: 0 0 10px #FF0080, 0 0 20px #FF1493;
 }
 </style>
