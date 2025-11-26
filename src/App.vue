@@ -1,4 +1,5 @@
 <template>
+  <ItSpeaks />
   <div class="lightning-container">
     <div class="lightning lightning-1"></div>
     <div class="lightning lightning-2"></div>
@@ -156,13 +157,15 @@
 
 <script>
 import BGCanvas from './components/BGCanvas.vue'
+import ItSpeaks from './components/ItSpeaks.vue'
 
 const colors = ['#00FFFF', '#FF00FF', '#FFFF00', '#00FF00', '#FF0080', '#0080FF'];
 
 export default {
   name: 'App',
   components: {
-    BGCanvas
+    BGCanvas,
+    ItSpeaks
   },
   mounted() {
     const seraphim = document.getElementById('MAIN-BODY');
@@ -321,6 +324,7 @@ export default {
             hoverTimer = null;
         }
     });
+    
     // Custom cursor that leaves colored trails
     document.addEventListener('mousemove', (e) => {
         const trail = document.createElement('div');
@@ -340,6 +344,50 @@ export default {
         setTimeout(() => trail.remove(), 1000);
     });
 
+    let cloneCount = 0;
+    const maxClones = 4;
+
+    document.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter' && cloneCount < maxClones) {
+            summonClone();
+        }
+    });
+
+    function summonClone() {
+        const original = document.getElementById('seraphim-container');
+        const clone = original.cloneNode(true);
+        clone.id = `seraphim-clone-${cloneCount}`;
+        
+        // Random position around the screen
+        const angle = (cloneCount / maxClones) * Math.PI * 2;
+        const distance = 300;
+        const x = Math.cos(angle) * distance;
+        const y = Math.sin(angle) * distance;
+        
+        clone.style.cssText = `
+            position: fixed;
+            left: 50%;
+            top: 50%;
+            transform: translate(calc(-50% + ${x}px), calc(-50% + ${y}px)) scale(0);
+            opacity: 0;
+            animation: clone-appear 1s ease-out forwards;
+            filter: hue-rotate(${cloneCount * 72}deg);
+        `;
+        
+        document.body.appendChild(clone);
+        cloneCount++;
+        
+        // After 10 seconds, clones fade away
+        setTimeout(() => {
+            clone.style.animation = 'clone-disappear 1s ease-out forwards';
+            setTimeout(() => {
+                clone.remove();
+                cloneCount--;
+            }, 1000);
+        }, 10000);
+    }
+
+    // FLIP REALITY 
     document.addEventListener('keydown', (e) => {
         if (e.key === 'Enter') {
             flipReality();
@@ -368,7 +416,7 @@ export default {
             document.body.style.filter = '';
             document.getElementById('MAIN-BODY').style.transform = '';
         }, 5000);
-    }
+      }
   }
 }
 </script>
@@ -732,5 +780,67 @@ body::after {
   z-index: 1;
   max-width: 600px;
   width: 100%;
+}
+
+/* Eye color rotation animation */
+#main-iris {
+    animation: color-cycle-1 50s infinite;
+}
+
+#main-iris-2 {
+    animation: color-cycle-2 50s infinite;
+}
+
+#main-iris-3 {
+    animation: color-cycle-3 50s infinite;
+}
+
+#main-iris-4 {
+    animation: color-cycle-4 50s infinite;
+}
+
+#main-iris-5 {
+    animation: color-cycle-5 50s infinite;
+}
+
+/* Each eye cycles through all 5 colors, offset by 10 seconds */
+@keyframes color-cycle-1 {
+    0%, 20% { fill: #FFFF00; } /* Yellow */
+    20%, 40% { fill: #00FF00; } /* Green */
+    40%, 60% { fill: #00FFFF; } /* Cyan */
+    60%, 80% { fill: #0040FF; } /* Blue */
+    80%, 100% { fill: #FF0080; } /* Magenta */
+}
+
+@keyframes color-cycle-2 {
+    0%, 20% { fill: #00FF00; } /* Green */
+    20%, 40% { fill: #00FFFF; } /* Cyan */
+    40%, 60% { fill: #0040FF; } /* Blue */
+    60%, 80% { fill: #FF0080; } /* Magenta */
+    80%, 100% { fill: #FFFF00; } /* Yellow */
+}
+
+@keyframes color-cycle-3 {
+    0%, 20% { fill: #00FFFF; } /* Cyan */
+    20%, 40% { fill: #0040FF; } /* Blue */
+    40%, 60% { fill: #FF0080; } /* Magenta */
+    60%, 80% { fill: #FFFF00; } /* Yellow */
+    80%, 100% { fill: #00FF00; } /* Green */
+}
+
+@keyframes color-cycle-4 {
+    0%, 20% { fill: #0040FF; } /* Blue */
+    20%, 40% { fill: #FF0080; } /* Magenta */
+    40%, 60% { fill: #FFFF00; } /* Yellow */
+    60%, 80% { fill: #00FF00; } /* Green */
+    80%, 100% { fill: #00FFFF; } /* Cyan */
+}
+
+@keyframes color-cycle-5 {
+    0%, 20% { fill: #FF0080; } /* Magenta */
+    20%, 40% { fill: #FFFF00; } /* Yellow */
+    40%, 60% { fill: #00FF00; } /* Green */
+    60%, 80% { fill: #00FFFF; } /* Cyan */
+    80%, 100% { fill: #0040FF; } /* Blue */
 }
 </style>
