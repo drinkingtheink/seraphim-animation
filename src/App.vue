@@ -412,7 +412,7 @@ svg::before {
 }
 
 #seraphim-container {
-  animation: float 3s infinite alternate;
+  animation: float 1s infinite alternate;
 }
 
 .cls-1 {
@@ -540,6 +540,7 @@ svg::before {
 
 #seraphim-container {
     position: relative;
+    margin: 0 auto;
 }
 
 
