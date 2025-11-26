@@ -157,6 +157,8 @@
 <script>
 import BGCanvas from './components/BGCanvas.vue'
 
+const colors = ['#00FFFF', '#FF00FF', '#FFFF00', '#00FF00', '#FF0080', '#0080FF'];
+
 export default {
   name: 'App',
   components: {
@@ -230,7 +232,6 @@ export default {
         symbol.textContent = symbols[Math.floor(Math.random() * symbols.length)];
         
         // Random color
-        const colors = ['#00FFFF', '#FF00FF', '#FFFF00', '#00FF00', '#FF0080', '#0080FF'];
         symbol.style.color = colors[Math.floor(Math.random() * colors.length)];
         
         // Start from center
@@ -319,6 +320,24 @@ export default {
             clearTimeout(hoverTimer);
             hoverTimer = null;
         }
+    });
+    // Custom cursor that leaves colored trails
+    document.addEventListener('mousemove', (e) => {
+        const trail = document.createElement('div');
+        trail.style.cssText = `
+            position: fixed;
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: ${colors[Math.floor(Math.random() * colors.length)]};
+            left: ${e.clientX}px;
+            top: ${e.clientY}px;
+            pointer-events: none;
+            animation: fade-trail 1s ease-out forwards;
+            filter: blur(2px);
+        `;
+        document.body.appendChild(trail);
+        setTimeout(() => trail.remove(), 1000);
     });
   }
 }
