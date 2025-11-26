@@ -193,8 +193,8 @@ export default {
         const distance = Math.sqrt(deltaX * deltaX + deltaY * deltaY);
         
         // Move away from mouse (inverse direction, scaled down)
-        const pushStrength = 90; // How far it moves (in pixels)
-        const maxDistance = 300; // Maximum effective distance
+        const pushStrength = 190; // How far it moves (in pixels)
+        const maxDistance = 400; // Maximum effective distance
         
         const factor = Math.min(distance / maxDistance, 1);
         const moveX = -(deltaX / distance) * pushStrength * factor;
@@ -209,7 +209,7 @@ export default {
     });
 
     // Array of mystical symbols
-    const symbols = ['✦', '✧', '✨', '⚡', '☆', '★', '◆', '◇', '○', '●', '▲', '△', '☽', '☾', '✵', '✶', '❋', '✹', '⊹', '※'];
+    const symbols = ['✦', '✧', '⚡', '☆', '◆', '◇', '○', '●', '▲', '△', '☽', '☾', '✵', '✶', '❋', '✹', '⊹', '※'];
 
     // Function to get the center position of the seraphim
     function getSeraphimCenter() {
@@ -288,7 +288,7 @@ export default {
     }, 8000); // Matches the 8s blink cycle
 
     // Seraphim disappears
-    const seraphimContainer = document.getElementById('seraphim-container');
+    const seraphimContainer = document.querySelector('#seraphim-container');
     let hoverTimer = null;
     let isDisappearing = false;
 
