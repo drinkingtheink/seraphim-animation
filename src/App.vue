@@ -478,12 +478,12 @@ svg::before {
 
 #RIGHT-WING {
     transform-origin: center center;
-    animation: flap-right 1.5s ease-in-out infinite;
+    animation: flap-right 1s ease-in-out infinite;
 }
 
 #LEFT-WING {
     transform-origin: center center;
-    animation: flap-left 1.5s ease-in-out infinite;
+    animation: flap-left 1s ease-in-out infinite;
 }
 
 #MAIN-BODY {

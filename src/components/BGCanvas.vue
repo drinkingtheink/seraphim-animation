@@ -1,16 +1,16 @@
 <template>
   <svg id="halftone-bg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 800" preserveAspectRatio="xMidYMid slice">
-    <defs>
-        <radialGradient id="color-gradient">
-            <!-- Will be updated dynamically -->
-        </radialGradient>
-    </defs>
-    
-    <rect width="1200" height="800" fill="#1a1a1a"/>
-    <rect id="gradient-rect" width="1200" height="800" fill="url(#color-gradient)" opacity="0.6"/>
-    <g id="dots-layer">
-        <!-- Dots will be generated here -->
-    </g>
+      <defs>
+          <radialGradient id="color-gradient">
+              <!-- Will be updated dynamically -->
+          </radialGradient>
+      </defs>
+      
+      <rect width="1200" height="800" fill="#1a1a1a"/>
+      <rect id="gradient-rect" width="1200" height="800" fill="url(#color-gradient)" opacity="0.6"/>
+      <g id="dots-layer">
+          <!-- Dots will be generated here -->
+      </g>
   </svg>
 </template>
 
@@ -48,7 +48,7 @@ export default {
         updateGradient(centers);
         
         // Generate dots with organic variation
-        const spacing = 10;
+        const spacing = 6;
         const jitter = 3; // Random position offset
         
         for (let y = 0; y < 800; y += spacing) {
