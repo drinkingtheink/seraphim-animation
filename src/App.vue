@@ -280,8 +280,6 @@ export default {
     setInterval(() => {
         castSpell();
     }, 8000); // Matches the 8s blink cycle
-
-
   }
 }
 </script>
