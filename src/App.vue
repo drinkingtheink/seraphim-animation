@@ -286,6 +286,40 @@ export default {
     setInterval(() => {
         castSpell();
     }, 8000); // Matches the 8s blink cycle
+
+    // Seraphim disappears
+    const seraphimContainer = document.getElementById('seraphim-container');
+    let hoverTimer = null;
+    let isDisappearing = false;
+
+    seraphimContainer.addEventListener('mouseenter', () => {
+        if (isDisappearing) return;
+        
+        // Start 2-second timer
+        hoverTimer = setTimeout(() => {
+            // Disappear
+            isDisappearing = true;
+            seraphimContainer.style.opacity = '0';
+            seraphimContainer.style.transition = 'opacity 0.5s ease-out';
+            seraphimContainer.style.filter = 'blur(10px)';
+            
+            // Reappear after 5 seconds
+            setTimeout(() => {
+                seraphimContainer.style.opacity = '1';
+                seraphimContainer.style.transition = 'opacity 1s ease-in';
+                seraphimContainer.style.filter = 'blur(0)';
+                isDisappearing = false;
+            }, 5000);
+        }, 2000);
+    });
+
+    seraphimContainer.addEventListener('mouseleave', () => {
+        // Cancel timer if mouse leaves before 2 seconds
+        if (hoverTimer && !isDisappearing) {
+            clearTimeout(hoverTimer);
+            hoverTimer = null;
+        }
+    });
   }
 }
 </script>
@@ -417,6 +451,7 @@ svg::before {
 
 #seraphim-container {
   animation: float 1s infinite alternate;
+  filter: blur(0);
 }
 
 .cls-1 {
