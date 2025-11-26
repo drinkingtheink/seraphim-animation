@@ -649,25 +649,4 @@ body::after {
   max-width: 600px;
   width: 100%;
 }
-
-
-/** LIGHTNING **/
-
-/* Yellow lightning */
-.lightning-1 {
-  background: linear-gradient(to bottom, #FFFF00, #FFD700, transparent);
-  box-shadow: 0 0 10px #FFFF00, 0 0 20px #FFD700;
-}
-
-/* Cyan lightning */
-.lightning-2 {
-  background: linear-gradient(to bottom, #00FFFF, #00CED1, transparent);
-  box-shadow: 0 0 10px #00FFFF, 0 0 20px #00CED1;
-}
-
-/* Magenta lightning */
-.lightning-3 {
-  background: linear-gradient(to bottom, #FF0080, #FF1493, transparent);
-  box-shadow: 0 0 10px #FF0080, 0 0 20px #FF1493;
-}
 </style>
