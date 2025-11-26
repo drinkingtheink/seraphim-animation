@@ -151,11 +151,17 @@
   </svg>
   </div>
 
+  <BGCanvas />
 </template>
 
 <script>
+import BGCanvas from './components/BGCanvas.vue'
+
 export default {
   name: 'App',
+  components: {
+    BGCanvas
+  },
   mounted() {
     const seraphim = document.getElementById('MAIN-BODY');
     const container = document.getElementById('seraphim-container');

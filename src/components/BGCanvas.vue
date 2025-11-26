@@ -23,7 +23,6 @@ export default {
   mounted() {
     const svg = document.getElementById('halftone-bg');
     const dotsLayer = document.getElementById('dots-layer');
-    const gradientRect = document.getElementById('gradient-rect');
     const colorGradient = document.getElementById('color-gradient');
     
     const colors = ['#FFFF00', '#00FF00', '#00FFFF', '#0040FF', '#FF0080'];
@@ -126,7 +125,7 @@ export default {
     generateHalftone();
     
     // Change pattern every 30 seconds
-    setInterval(transitionPattern, 30000);
+    setInterval(transitionPattern, 10000);
   }
 }
 </script>
