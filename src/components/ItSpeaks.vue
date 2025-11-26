@@ -81,12 +81,11 @@ defineExpose({
   text-align: center;
   text-shadow: 
     10px 10px 10px rgba(0, 0, 0, 0.9);
-  padding: 40px;
   max-width: 80%;
   pointer-events: none;
   z-index: 1000;
-  animation: prophecy-appear 4s ease-in-out forwards;
-  padding: 20px 40px;
+  animation: prophecy-appear 2.5s ease-in-out forwards;
+  padding: 2rem 3rem;
   border-radius: 50%;
   background-color: rgba(0, 0, 0, 0.5);
   border: 1px solid white;
