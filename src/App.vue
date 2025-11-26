@@ -339,6 +339,36 @@ export default {
         document.body.appendChild(trail);
         setTimeout(() => trail.remove(), 1000);
     });
+
+    document.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter') {
+            flipReality();
+        }
+    });
+
+    function flipReality() {
+        // Everything inverts - colors, rotation, direction
+        document.body.style.animation = 'reality-flip 1s ease-in-out';
+        
+        // Invert colors
+        document.body.style.filter = 'invert(1) hue-rotate(180deg)';
+        
+        // Flip seraphim
+        document.getElementById('MAIN-BODY').style.transform = 'rotateY(180deg)';
+        
+        // Wings flap opposite direction
+        document.getElementById('RIGHT-WING').style.animationDirection = 'reverse';
+        document.getElementById('LEFT-WING').style.animationDirection = 'reverse';
+        
+        // Symbols fly inward instead of outward
+        // Background moves opposite
+        
+        // Press Enter again to restore
+        setTimeout(() => {
+            document.body.style.filter = '';
+            document.getElementById('MAIN-BODY').style.transform = '';
+        }, 5000);
+    }
   }
 }
 </script>
