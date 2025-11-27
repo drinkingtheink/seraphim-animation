@@ -419,53 +419,53 @@ export default {
       }
 
     let dimension = 0;
-const dimensions = [
-    { name: 'Material Realm', filter: '' },
-    { name: 'Shadow Realm', filter: 'grayscale(1) contrast(1.5)' },
-    { name: 'Dream Realm', filter: 'hue-rotate(180deg) saturate(2)' },
-    { name: 'Void Realm', filter: 'invert(1) contrast(2)' },
-    { name: 'Crystal Realm', filter: 'brightness(1.5) saturate(3)' }
-];
+    const dimensions = [
+        { name: 'Material Realm', filter: '' },
+        { name: 'Shadow Realm', filter: 'grayscale(1) contrast(1.5)' },
+        { name: 'Dream Realm', filter: 'hue-rotate(180deg) saturate(2)' },
+        { name: 'Void Realm', filter: 'invert(1) contrast(2)' },
+        { name: 'Crystal Realm', filter: 'brightness(1.5) saturate(3)' }
+    ];
 
-document.addEventListener('keydown', (event) => {
-    if (event.key === 'ArrowRight' || event.code === 'ArrowRight') {
-        shiftDimension();
-    }
-});
+    document.addEventListener('keydown', (event) => {
+        if (event.key === 'ArrowRight' || event.code === 'ArrowRight') {
+            shiftDimension();
+        }
+    });
 
-function shiftDimension() {
-    dimension = (dimension + 1) % dimensions.length;
-    const current = dimensions[dimension];
-    
-    // Flash effect
-    document.body.style.background = 'white';
-    setTimeout(() => {
-        document.body.style.background = '';
-    }, 100);
-    
-    // Apply dimension filter
-    document.body.style.filter = current.filter;
-    
-    // Announce dimension
-    const announcement = document.createElement('div');
-    announcement.textContent = `⚡ ${current.name} ⚡`;
-    announcement.style.cssText = `
-        position: fixed;
-        top: 20px;
-        left: 50%;
-        transform: translateX(-50%);
-        font-size: 36px;
-        color: white;
-        font-weight: bold;
-        text-shadow: 0 0 20px currentColor;
-        animation: fade-out 2s ease-out forwards;
-        pointer-events: none;
-        z-index: 1000;
-    `;
-      document.body.appendChild(announcement);
-      setTimeout(() => announcement.remove(), 2000);
-    }
-  }
+    function shiftDimension() {
+        dimension = (dimension + 1) % dimensions.length;
+        const current = dimensions[dimension];
+        
+        // Flash effect
+        document.body.style.background = 'white';
+        setTimeout(() => {
+            document.body.style.background = '';
+        }, 100);
+        
+        // Apply dimension filter
+        document.body.style.filter = current.filter;
+        
+        // Announce dimension
+        const announcement = document.createElement('div');
+        announcement.textContent = `⚡ ${current.name} ⚡`;
+        announcement.style.cssText = `
+            position: fixed;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 36px;
+            color: white;
+            font-weight: bold;
+            text-shadow: 0 0 20px currentColor;
+            animation: fade-out 2s ease-out forwards;
+            pointer-events: none;
+            z-index: 1000;
+        `;
+          document.body.appendChild(announcement);
+          setTimeout(() => announcement.remove(), 2000);
+        }
+      }
 }
 </script>
 
