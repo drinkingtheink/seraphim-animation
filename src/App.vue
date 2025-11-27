@@ -417,6 +417,54 @@ export default {
             document.getElementById('MAIN-BODY').style.transform = '';
         }, 5000);
       }
+
+    let dimension = 0;
+const dimensions = [
+    { name: 'Material Realm', filter: '' },
+    { name: 'Shadow Realm', filter: 'grayscale(1) contrast(1.5)' },
+    { name: 'Dream Realm', filter: 'hue-rotate(180deg) saturate(2)' },
+    { name: 'Void Realm', filter: 'invert(1) contrast(2)' },
+    { name: 'Crystal Realm', filter: 'brightness(1.5) saturate(3)' }
+];
+
+document.addEventListener('keydown', (event) => {
+    if (event.key === 'ArrowRight' || event.code === 'ArrowRight') {
+        shiftDimension();
+    }
+});
+
+function shiftDimension() {
+    dimension = (dimension + 1) % dimensions.length;
+    const current = dimensions[dimension];
+    
+    // Flash effect
+    document.body.style.background = 'white';
+    setTimeout(() => {
+        document.body.style.background = '';
+    }, 100);
+    
+    // Apply dimension filter
+    document.body.style.filter = current.filter;
+    
+    // Announce dimension
+    const announcement = document.createElement('div');
+    announcement.textContent = `⚡ ${current.name} ⚡`;
+    announcement.style.cssText = `
+        position: fixed;
+        top: 20px;
+        left: 50%;
+        transform: translateX(-50%);
+        font-size: 36px;
+        color: white;
+        font-weight: bold;
+        text-shadow: 0 0 20px currentColor;
+        animation: fade-out 2s ease-out forwards;
+        pointer-events: none;
+        z-index: 1000;
+    `;
+      document.body.appendChild(announcement);
+      setTimeout(() => announcement.remove(), 2000);
+    }
   }
 }
 </script>
@@ -433,6 +481,10 @@ body {
   min-height: 100vh;
   position: relative;
   overflow: hidden;
+}
+
+* {
+  transition: all 2s;
 }
 
 #app {
@@ -842,5 +894,46 @@ body::after {
     40%, 60% { fill: #00FF00; } /* Green */
     60%, 80% { fill: #00FFFF; } /* Cyan */
     80%, 100% { fill: #0040FF; } /* Blue */
+}
+
+/* More detailed branching */
+.lightning {
+  position: absolute;
+  width: 3px;
+  background: linear-gradient(
+    to bottom,
+    #ffffff,
+    #e0f0ff,
+    #a0c0ff,
+    transparent
+  );
+  filter: blur(1px);
+  box-shadow: 
+    0 0 5px #fff,
+    0 0 10px #a0c0ff,
+    0 0 20px #6080ff;
+}
+
+.lightning::before {
+  height: 80px;
+  top: 60px;
+  left: 15px;
+  transform: rotate(30deg);
+  filter: blur(0.5px);
+}
+
+.lightning::after {
+  height: 100px;
+  top: 100px;
+  left: -20px;
+  transform: rotate(-25deg);
+  filter: blur(0.5px);
+}
+
+/* Add more branches */
+.lightning-1::before {
+  box-shadow: 
+    10px 40px 0 -2px rgba(255, 255, 255, 0.8),
+    -15px 70px 0 -2px rgba(255, 255, 255, 0.6);
 }
 </style>

@@ -89,7 +89,7 @@ defineExpose({
   border-radius: 50%;
   background-color: rgba(0, 0, 0, 0.5);
   border: 1px solid white;
-  backdrop-filter: hue-rotate(200deg);
+  backdrop-filter: hue-rotate(100deg);
 }
 
 @keyframes prophecy-appear {
