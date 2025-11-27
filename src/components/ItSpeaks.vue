@@ -9,15 +9,14 @@ import { ref, onMounted, onUnmounted, defineEmits, defineExpose } from 'vue';
 
 const prophecies = [
   'The watcher sees all, yet seeks to be seen...',
-  'Five eyes witness the dance of light and shadow',
   'In the space between blinks, worlds are born',
   'The wings remember what the earth has forgotten',
   'You have gazed long enough. Now I gaze back.',
-  'Time flows differently when observed by five',
   'The colors you see are echoes of ancient songs',
   'Between each feather lies a forgotten dream',
   'I am the guardian of the spaces in between',
-  'What you call chaos, I call the original pattern'
+  'What you call chaos, I call the original pattern',
+  'All I want to do, is go some place quiet and recite the names of the stars …'
 ];
 
 const isVisible = ref(false);
