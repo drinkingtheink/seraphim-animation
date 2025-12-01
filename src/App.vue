@@ -936,10 +936,4 @@ body::after {
     10px 40px 0 -2px rgba(255, 255, 255, 0.8),
     -15px 70px 0 -2px rgba(255, 255, 255, 0.6);
 }
-
-@media (max-width: 1180px) {
-  #halftone-bg {
-    height: 100vh;
-  }
-}
 </style>

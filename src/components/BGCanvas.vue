@@ -137,6 +137,7 @@ export default {
   inset: 0;
   z-index: -1;
   transition: opacity 2s ease-in-out;
+  height: 100vh;
 }
 
 #halftone-bg.transitioning {
